@@ -13,7 +13,7 @@ public final class UseGraph {
      *            ignored
      */
     public static void main(final String... args) {
-        final Graph<String> g = null; // new GraphImpl<>();
+        final Graph<String> g = new GraphImpl<>();
         g.addNode("a");
         g.addNode("b");
         g.addNode("c");
