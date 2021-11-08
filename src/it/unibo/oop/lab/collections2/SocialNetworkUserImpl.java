@@ -1,7 +1,10 @@
 package it.unibo.oop.lab.collections2;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -16,7 +19,7 @@ import java.util.List;
  * @param <U>
  *            Specific user type
  */
-public class SocialNetworkUserImpl<U extends User> extends UserImpl implements SocialNetworkUser<U> {
+public class SocialNetworkUserImpl<U extends User> extends UserImpl implements SocialNetworkUser<U>{
 
     /*
      * 
@@ -29,6 +32,7 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
      * 
      * think of what type of keys and values would best suit the requirements
      */
+	Map<U, String> friends;
 
     /*
      * [CONSTRUCTORS]
@@ -56,6 +60,7 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
      */
     public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
         super(name, surname, user, userAge);
+        friends = new HashMap<>();
     }
 
     /*
@@ -66,17 +71,33 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
 
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
+    	for (Map.Entry<U, String> u : friends.entrySet()) {
+    		if (u.getKey().equals(user)) {
+    			return true; //already followed
+    		}
+    	}
+    	friends.put(user, circle);
         return false;
     }
 
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        return null;
+    	List<U> l = new LinkedList<U>();
+    	for (Map.Entry<U, String> u : friends.entrySet()) {
+    		if (u.getValue().equals(groupName)) {
+    			l.add(u.getKey());
+    		}
+    	}
+        return l;
     }
 
     @Override
     public List<U> getFollowedUsers() {
-        return null;
+    	List<U> l = new LinkedList<U>();
+    	for (Map.Entry<U, String> u : friends.entrySet()) {
+    		l.add(u.getKey());
+    	}
+        return l;
     }
 
 }
